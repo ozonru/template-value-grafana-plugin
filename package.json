@@ -1,0 +1,20 @@
+{
+  "name": "multistat-plugin",
+  "version": "0.1.0",
+  "description": "It is same as SingleStat plugin, but for several series",
+  "scripts": {
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch"
+  },
+  "author": "OZON frontend infrastructure team",
+  "license": "MIT",
+  "devDependencies": {
+	"@grafana/data": "~6.4.4",
+	"@grafana/runtime": "~6.4.4",
+	"@grafana/toolkit": "~6.4.4",
+	"@grafana/ui": "~6.4.4",
+	"@types/grafana": "github:CorpGlory/types-grafana.git"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "panel",
+  "name": "Multistat Value",
+  "id": "multistat-grafana-plugin",
+  "info": {
+    "description": "Multistat Value Panel",
+    "author": {
+      "name": "OZON frontend infrastructure team"
+    },
+    "keywords": ["Multistat", "MultiStat"],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {"name": "Website", "url": "https://github.com/ozonru/multistat-grafana-plugin"},
+      {"name": "License", "url": "https://github.com/ozonru/multistat-grafana-plugin/blob/master/LICENSE"}
+    ],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+
+  "dependencies": {
+    "grafanaVersion": "6.3.x",
+    "plugins": []
+  }
+}
