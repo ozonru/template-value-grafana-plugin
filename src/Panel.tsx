@@ -7,24 +7,24 @@ import { DEFAULT_FONT_SIZE } from './consts';
 import { ArrayVector, FieldType } from '@grafana/data';
 
 interface State {
-  values: FieldDisplay[],
-  color: string | undefined
+  values: FieldDisplay[];
+  color: string | undefined;
 }
 
 function evaluateFontSize(size: number, percent: string): number {
   const percentNumber = parseInt(percent, 10);
 
-  return Math.round(size / 100 * percentNumber);
+  return Math.round((size / 100) * percentNumber);
 }
 
 export default class Panel extends PureComponent<PanelProps<Options>, State> {
-  static getDerivedStateFromProps({options, data, replaceVariables}: PanelProps<Options>): State {
+  static getDerivedStateFromProps({ options, data, replaceVariables }: PanelProps<Options>): State {
     let values = getFieldDisplayValues({
       ...options,
       replaceVariables,
       theme: config.theme,
       data: data.series,
-      sparkline: undefined
+      sparkline: undefined,
     });
 
     let color = values[0].display.color;
@@ -53,18 +53,20 @@ export default class Panel extends PureComponent<PanelProps<Options>, State> {
             ...options,
             replaceVariables,
             theme: config.theme,
-            data: [{
-              length: 1,
-              fields: [
-                {
-                  name: '',
-                  type: FieldType.number,
-                  values: new ArrayVector([value]),
-                  config: {}
-                }
-              ]
-            }],
-            sparkline: undefined
+            data: [
+              {
+                length: 1,
+                fields: [
+                  {
+                    name: '',
+                    type: FieldType.number,
+                    values: new ArrayVector([value]),
+                    config: {},
+                  },
+                ],
+              },
+            ],
+            sparkline: undefined,
           });
 
           color = result[0].display.color;
@@ -72,9 +74,7 @@ export default class Panel extends PureComponent<PanelProps<Options>, State> {
       }
     }
 
-    const fontSize = options.valueFontSize
-      ? evaluateFontSize(DEFAULT_FONT_SIZE, options.valueFontSize)
-      : DEFAULT_FONT_SIZE;
+    const fontSize = options.valueFontSize ? evaluateFontSize(DEFAULT_FONT_SIZE, options.valueFontSize) : DEFAULT_FONT_SIZE;
 
     values.forEach(val => {
       val.display.fontSize = `${fontSize}px`;
@@ -86,7 +86,7 @@ export default class Panel extends PureComponent<PanelProps<Options>, State> {
 
     return {
       values,
-      color: options.colorBackground ? color : undefined
+      color: options.colorBackground ? color : undefined,
     };
   }
 
@@ -122,13 +122,7 @@ export default class Panel extends PureComponent<PanelProps<Options>, State> {
 
     return (
       <div ref={this.panel}>
-        <TemplateValue
-          template={options.template}
-          values={this.state.values}
-          width={width}
-          height={height}
-          theme={config.theme}
-        />
+        <TemplateValue template={options.template} values={this.state.values} width={width} height={height} theme={config.theme} />
       </div>
     );
   }

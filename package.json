@@ -8,7 +8,7 @@
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch"
   },
-  "author": "OZON frontend infrastructure team",
+  "author": "OZON team",
   "license": "MIT",
   "devDependencies": {
 	"@grafana/data": "~6.4.4",

@@ -199,12 +199,7 @@ export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
             />
           </div>
           <div>
-            <Switch
-              label="Color value"
-              labelClass={`width-${LABEL_WIDTH}`}
-              checked={options.colorValue!}
-              onChange={this.toggleColorValue}
-            />
+            <Switch label="Color value" labelClass={`width-${LABEL_WIDTH}`} checked={options.colorValue!} onChange={this.toggleColorValue} />
           </div>
         </div>
       </PanelOptionsGroup>

@@ -6,7 +6,7 @@
 }
 
 @media screen and (min-width: 900px) {
-	.custom-panel-options-grid {
-		grid-template-columns: repeat(2, 1fr);
-	}
+  .custom-panel-options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

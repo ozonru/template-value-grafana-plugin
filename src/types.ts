@@ -2,7 +2,7 @@ import { SingleStatBaseOptions } from '@grafana/ui';
 
 export interface SparklineOptions {
   show: boolean;
-  full: boolean; // full height
+  full: boolean;
   fillColor: string;
   lineColor: string;
 }
