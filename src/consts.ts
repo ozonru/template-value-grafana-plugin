@@ -30,12 +30,6 @@ export const standardFieldDisplayOptions: FieldDisplayOptions = {
 };
 
 export const defaults: Options = {
-  sparkline: {
-    show: true,
-    full: false,
-    lineColor: 'rgb(31, 120, 193)',
-    fillColor: 'rgba(31, 118, 189, 0.18)',
-  },
   fieldOptions: standardFieldDisplayOptions,
   orientation: VizOrientation.Auto,
   colorBackground: false,

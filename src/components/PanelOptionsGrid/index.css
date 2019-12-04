@@ -1,0 +1,12 @@
+.custom-panel-options-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+}
+
+@media screen and (min-width: 900px) {
+	.custom-panel-options-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}

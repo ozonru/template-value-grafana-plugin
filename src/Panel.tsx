@@ -24,7 +24,7 @@ export default class Panel extends PureComponent<PanelProps<Options>, State> {
       replaceVariables,
       theme: config.theme,
       data: data.series,
-      sparkline: options.sparkline.show,
+      sparkline: undefined
     });
 
     let color = values[0].display.color;
@@ -64,7 +64,7 @@ export default class Panel extends PureComponent<PanelProps<Options>, State> {
                 }
               ]
             }],
-            sparkline: options.sparkline.show,
+            sparkline: undefined
           });
 
           color = result[0].display.color;

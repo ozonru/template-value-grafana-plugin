@@ -16,7 +16,6 @@ export interface Options extends SingleStatBaseOptions, AppearanceGeneralOptions
   valueFontSize?: string;
   colorBackground: boolean;
   colorValue: boolean;
-  sparkline: SparklineOptions;
 }
 
 export interface EditorPanelsProps {
