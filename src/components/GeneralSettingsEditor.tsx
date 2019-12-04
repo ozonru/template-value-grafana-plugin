@@ -70,7 +70,9 @@ export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
 
     const match = checkExpression.exec(template);
 
-    if (!match || match[0].length !== template.length) return;
+    if (!match || match[0].length !== template.length) {
+      return;
+    }
 
     this.props.onChange({
       ...this.props.options,
@@ -79,7 +81,9 @@ export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
   };
 
   toggleColorBackground = (e?: React.SyntheticEvent<HTMLInputElement>) => {
-    if (!e) return;
+    if (!e) {
+      return;
+    }
 
     // @ts-ignore
     const hasColor = !!e.target.checked;
@@ -91,7 +95,9 @@ export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
   };
 
   toggleColorValue = (e?: React.SyntheticEvent<HTMLInputElement>) => {
-    if (!e) return;
+    if (!e) {
+      return;
+    }
 
     // @ts-ignore
     const hasColor = !!e.target.checked;

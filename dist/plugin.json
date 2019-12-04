@@ -1,0 +1,28 @@
+{
+  "type": "panel",
+  "name": "Template Value",
+  "id": "template-value-grafana-plugin",
+  "info": {
+    "description": "Template Value Panel",
+    "author": {
+      "name": "OZON team"
+    },
+    "keywords": ["Template", "Panel"],
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {"name": "Website", "url": "https://github.com/ozonru/multistat-grafana-plugin"},
+      {"name": "License", "url": "https://github.com/ozonru/multistat-grafana-plugin/blob/master/LICENSE"}
+    ],
+    "screenshots": [],
+    "version": "0.1.0",
+    "updated": "2019-12-04"
+  },
+
+  "dependencies": {
+    "grafanaVersion": "6.3.x",
+    "plugins": []
+  }
+}

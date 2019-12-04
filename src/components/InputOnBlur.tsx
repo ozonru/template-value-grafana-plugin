@@ -14,7 +14,7 @@ interface Props<T> {
 type State = { value: string; focus: boolean };
 
 export default class InputOnBlur<T> extends Component<Props<T>, State> {
-  public static getDerivedStateFromProps<T>(props: Props<T>, state: State): State {
+  static getDerivedStateFromProps<T>(props: Props<T>, state: State): State {
     if (state.focus) {
       return state;
     }
@@ -34,7 +34,7 @@ export default class InputOnBlur<T> extends Component<Props<T>, State> {
     };
   }
 
-  public shouldComponentUpdate(nextProps: Readonly<Props<T>>, nextState: Readonly<{ value: string }>): boolean {
+  shouldComponentUpdate(nextProps: Readonly<Props<T>>, nextState: Readonly<{ value: string }>): boolean {
     return this.state.value !== nextState.value || this.props.value !== nextProps.value;
   }
 
@@ -60,7 +60,7 @@ export default class InputOnBlur<T> extends Component<Props<T>, State> {
     });
   };
 
-  public render() {
+  render() {
     const { label, labelWidth, inputWidth, placeholder, tooltip } = this.props;
 
     return (

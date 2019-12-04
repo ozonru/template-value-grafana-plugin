@@ -19,7 +19,7 @@ function evaluateFontSize(size: number, percent: string): number {
 
 export default class Panel extends PureComponent<PanelProps<Options>, State> {
   static getDerivedStateFromProps({ options, data, replaceVariables }: PanelProps<Options>): State {
-    let values = getFieldDisplayValues({
+    const values = getFieldDisplayValues({
       ...options,
       replaceVariables,
       theme: config.theme,
@@ -33,7 +33,9 @@ export default class Panel extends PureComponent<PanelProps<Options>, State> {
       let valid = true;
 
       const replacedVariables = options.thresholdExpression.replace(/\$\d+/g, (varId: string): string => {
-        if (!valid) return varId;
+        if (!valid) {
+          return varId;
+        }
 
         const i = parseInt(varId.slice(1), 10) - 1;
 
@@ -46,6 +48,7 @@ export default class Panel extends PureComponent<PanelProps<Options>, State> {
       });
 
       if (valid) {
+        /* tslint:disable:no-eval */
         const value = eval(replacedVariables);
 
         if (typeof value === 'number' && !Number.isNaN(value)) {
