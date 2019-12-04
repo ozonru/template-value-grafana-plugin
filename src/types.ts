@@ -9,6 +9,7 @@ export interface SparklineOptions {
 
 export interface AppearanceGeneralOptions {
   template: string;
+  thresholdExpression?: string;
 }
 
 export interface Options extends SingleStatBaseOptions, AppearanceGeneralOptions {

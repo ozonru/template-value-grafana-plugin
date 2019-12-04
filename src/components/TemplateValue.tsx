@@ -17,6 +17,11 @@ const wrapperStyle = {
 
 const valueStyle = {
   alignSelf: 'center',
+  lineHeight: '19px'
+};
+
+const templateVariableStyle = {
+  fontWeight: 500
 };
 
 export default class TemplateValue extends PureComponent<Props> {
@@ -28,11 +33,11 @@ export default class TemplateValue extends PureComponent<Props> {
     }
 
     const {
-      display: { text, fontSize, color },
+      display: { text, color },
     } = value;
 
     return (
-      <span key={`val-${index}`} style={{ fontSize, color }}>
+      <span key={`val-${index}`} style={{ ...templateVariableStyle, color }}>
         {text}
       </span>
     );
@@ -65,11 +70,19 @@ export default class TemplateValue extends PureComponent<Props> {
   }
 
   render() {
-    const { width, height, template } = this.props;
+    const { width, height, template, values } = this.props;
 
     return (
       <div style={{ ...wrapperStyle, width, height }}>
-        <span style={valueStyle}>{this.renderTemplate(template)}</span>
+        {
+          values.length === 0
+            ? null
+            : (
+              <span style={{...valueStyle, fontSize: values[0].display.fontSize }}>
+                {this.renderTemplate(template)}
+              </span>
+            )
+        }
       </div>
     );
   }

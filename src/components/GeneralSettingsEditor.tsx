@@ -1,11 +1,14 @@
 import React, { PureComponent } from 'react';
-import { FormField, Select, PanelOptionsGroup, StatsPicker } from '@grafana/ui';
+import { FormField, Select, PanelOptionsGroup, StatsPicker, Switch } from '@grafana/ui';
 import { fontSize, FORM_ELEMENT_WIDTH, LABEL_WIDTH } from '../consts';
 import { EditorPanelsProps } from '../types';
 import { loadFormats } from '../utils';
 import { FieldConfig, ReducerID, SelectableValue } from '@grafana/data';
+import InputOnBlur from './InputOnBlur';
 
+const checkExpression = /[ \t\d\.\$\+\-\/\*]+/i;
 const EMPTY_ARRAY = [];
+const valueMapping = s => s;
 
 export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
   unitFormats = loadFormats();
@@ -47,12 +50,62 @@ export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
 
   handleValueFontSize = (v: SelectableValue<string>) => this.props.onChange({ ...this.props.options, valueFontSize: v.value });
 
+  handleTemplateChange = (e: React.SyntheticEvent) => {
+    // @ts-ignore
+    const template = e.target.value;
+
+    this.props.onChange({
+      ...this.props.options,
+      template,
+    });
+  };
+
+  handleThresholdExpressionChange = (template: string) => {
+    if (!template.trim()) {
+      this.props.onChange({
+        ...this.props.options,
+        thresholdExpression: undefined,
+      });
+    }
+
+    const match = checkExpression.exec(template);
+
+    if (!match || match[0].length !== template.length) return;
+
+    this.props.onChange({
+      ...this.props.options,
+      thresholdExpression: template,
+    });
+  };
+
+  toggleColorBackground = (e?: React.SyntheticEvent<HTMLInputElement>) => {
+    if (!e) return;
+
+    // @ts-ignore
+    const hasColor = !!e.target.checked;
+
+    this.props.onChange({
+      ...this.props.options,
+      colorBackground: hasColor,
+    });
+  };
+
+  toggleColorValue = (e?: React.SyntheticEvent<HTMLInputElement>) => {
+    if (!e) return;
+
+    // @ts-ignore
+    const hasColor = !!e.target.checked;
+
+    this.props.onChange({
+      ...this.props.options,
+      colorValue: hasColor,
+    });
+  };
+
   render() {
     const { options } = this.props;
-
     const { defaults, override } = options.fieldOptions;
-
-    const unit = defaults.unit || override.unit;
+    const unit = override.unit || defaults.unit;
 
     return (
       <PanelOptionsGroup title="Appearance: General">
@@ -105,7 +158,16 @@ export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
         <div className="section">
           <div className="gf-form">
             <FormField
-              label="Prefix"
+              label="Template"
+              labelWidth={LABEL_WIDTH}
+              inputWidth={FORM_ELEMENT_WIDTH}
+              value={options.template}
+              onChange={this.handleTemplateChange}
+            />
+          </div>
+          <div className="gf-form">
+            <FormField
+              label="Font size"
               labelWidth={LABEL_WIDTH}
               inputEl={
                 <Select
@@ -115,6 +177,33 @@ export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
                   value={fontSize.byValue(options.valueFontSize)}
                 />
               }
+            />
+          </div>
+        </div>
+        <div className="section">
+          <InputOnBlur<string>
+            label="Threshold expression"
+            placeholder="$1"
+            labelWidth={LABEL_WIDTH}
+            inputWidth={FORM_ELEMENT_WIDTH}
+            value={options.thresholdExpression || ''}
+            valueToString={valueMapping}
+            onChange={this.handleThresholdExpressionChange}
+          />
+          <div>
+            <Switch
+              label="Color background"
+              labelClass={`width-${LABEL_WIDTH}`}
+              checked={options.colorBackground!}
+              onChange={this.toggleColorBackground}
+            />
+          </div>
+          <div>
+            <Switch
+              label="Color value"
+              labelClass={`width-${LABEL_WIDTH}`}
+              checked={options.colorValue!}
+              onChange={this.toggleColorValue}
             />
           </div>
         </div>

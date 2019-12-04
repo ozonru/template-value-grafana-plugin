@@ -3,7 +3,6 @@ import { PanelEditorProps, ThresholdsEditor, PanelOptionsGrid, ValueMappingsEdit
 import { Threshold, ValueMapping, FieldConfig } from '@grafana/data';
 
 import { Options, SparklineOptions } from './types';
-import { ColoringEditor } from './components/ColoringEditor';
 import { SparklineEditor } from './components/SparklineEditor';
 import { GeneralSettingsEditor } from './components/GeneralSettingsEditor';
 
@@ -50,14 +49,12 @@ export default class Editor extends PureComponent<PanelEditorProps<Options>> {
 
     return (
       <>
+        <GeneralSettingsEditor options={options} onChange={this.props.onOptionsChange} />
+        <ValueMappingsEditor onChange={this.onValueMappingsChanged} valueMappings={defaults.mappings} />
         <PanelOptionsGrid>
-          <GeneralSettingsEditor options={options} onChange={this.props.onOptionsChange} />
-          <ColoringEditor options={options} onChange={this.props.onOptionsChange} />
           <SparklineEditor options={options.sparkline} onChange={this.onSparklineChanged} />
           <ThresholdsEditor onChange={this.onThresholdsChanged} thresholds={defaults.thresholds} />
         </PanelOptionsGrid>
-
-        <ValueMappingsEditor onChange={this.onValueMappingsChanged} valueMappings={defaults.mappings} />
       </>
     );
   }
