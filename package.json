@@ -1,6 +1,6 @@
 {
   "name": "template-value-plugin",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "It is same as SingleStat plugin, but for several series",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
