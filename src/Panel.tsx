@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
-import config from 'grafana/app/core/config';
 import { Options } from './types';
-import { FieldDisplay, getFieldDisplayValues, PanelProps } from '@grafana/ui';
 import TemplateValue from './components/TemplateValue';
 import { DEFAULT_FONT_SIZE } from './consts';
-import { ArrayVector, FieldType } from '@grafana/data';
+import { ArrayVector, FieldType, PanelProps, getFieldDisplayValues, FieldDisplay } from '@grafana/data';
+import { Themeable, withTheme } from '@grafana/ui';
 
 interface State {
   values: FieldDisplay[];
   color: string | undefined;
 }
+type Props = PanelProps<Options> & Themeable;
 
 function evaluateFontSize(size: number, percent: string): number {
   const percentNumber = parseInt(percent, 10);
@@ -17,12 +17,12 @@ function evaluateFontSize(size: number, percent: string): number {
   return Math.round((size / 100) * percentNumber);
 }
 
-export default class Panel extends PureComponent<PanelProps<Options>, State> {
-  static getDerivedStateFromProps({ options, data, replaceVariables }: PanelProps<Options>): State {
+class Panel extends PureComponent<Props, State> {
+  static getDerivedStateFromProps({ options, data, replaceVariables, theme }): State {
     const values = getFieldDisplayValues({
       ...options,
       replaceVariables,
-      theme: config.theme,
+      theme,
       data: data.series,
       sparkline: undefined,
     });
@@ -55,7 +55,7 @@ export default class Panel extends PureComponent<PanelProps<Options>, State> {
           const result = getFieldDisplayValues({
             ...options,
             replaceVariables,
-            theme: config.theme,
+            theme,
             data: [
               {
                 length: 1,
@@ -121,12 +121,14 @@ export default class Panel extends PureComponent<PanelProps<Options>, State> {
   }
 
   render() {
-    const { height, width, options } = this.props;
+    const { height, width, options, theme } = this.props;
 
     return (
       <div ref={this.panel}>
-        <TemplateValue template={options.template} values={this.state.values} width={width} height={height} theme={config.theme} />
+        <TemplateValue template={options.template} values={this.state.values} width={width} height={height} theme={theme} />
       </div>
     );
   }
 }
+
+export default withTheme(Panel);

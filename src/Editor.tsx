@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { PanelEditorProps, ThresholdsEditor, ValueMappingsEditor, FieldDisplayOptions } from '@grafana/ui';
-import { Threshold, ValueMapping, FieldConfig } from '@grafana/data';
+import { ThresholdsEditor, ValueMappingsEditor } from '@grafana/ui';
+import { Threshold, ValueMapping, FieldConfig, PanelEditorProps, FieldDisplayOptions } from '@grafana/data';
 
 import { Options } from './types';
 import { GeneralSettingsEditor } from './components/GeneralSettingsEditor';

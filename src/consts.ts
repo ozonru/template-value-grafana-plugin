@@ -1,5 +1,4 @@
-import { FieldDisplayOptions, VizOrientation } from '@grafana/ui';
-import { ReducerID } from '@grafana/data';
+import { ReducerID, FieldDisplayOptions, VizOrientation } from '@grafana/data';
 import { Options } from './types';
 
 export const FORM_ELEMENT_WIDTH = 12;

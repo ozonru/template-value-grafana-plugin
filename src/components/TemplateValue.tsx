@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { FieldDisplay, GrafanaTheme } from '@grafana/ui';
+import { FieldDisplay, GrafanaTheme } from '@grafana/data';
 
 interface Props {
   height: number;

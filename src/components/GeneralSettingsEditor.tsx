@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
-import { FormField, Select, PanelOptionsGroup, StatsPicker, Switch } from '@grafana/ui';
+import { FormField, Select, PanelOptionsGroup, StatsPicker, Switch, UnitPicker } from '@grafana/ui';
 import { fontSize, FORM_ELEMENT_WIDTH, LABEL_WIDTH } from '../consts';
 import { EditorPanelsProps } from '../types';
-import { loadFormats } from '../utils';
 import { FieldConfig, ReducerID, SelectableValue } from '@grafana/data';
 import InputOnBlur from './InputOnBlur';
 
@@ -11,8 +10,6 @@ const EMPTY_ARRAY = [];
 const valueMapping = s => s;
 
 export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
-  unitFormats = loadFormats();
-
   override = (config: FieldConfig) =>
     this.props.onChange({
       ...this.props.options,
@@ -117,22 +114,7 @@ export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
       <PanelOptionsGroup title="Appearance: General">
         <div className="section">
           <div className="gf-form">
-            <FormField
-              label="Unit format"
-              labelWidth={LABEL_WIDTH}
-              inputEl={
-                <Select<string>
-                  placeholder="Select unit"
-                  isClearable
-                  isSearchable
-                  isMulti={false}
-                  width={FORM_ELEMENT_WIDTH}
-                  onChange={this.handleUnitChange}
-                  value={{ value: unit, label: unit }}
-                  options={this.unitFormats}
-                />
-              }
-            />
+            <FormField label="Unit format" labelWidth={LABEL_WIDTH} inputEl={<UnitPicker onChange={this.handleUnitChange} defaultValue={unit} />} />
           </div>
           <div className="gf-form">
             <FormField
