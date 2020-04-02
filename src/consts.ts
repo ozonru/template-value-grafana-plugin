@@ -1,5 +1,5 @@
-import { ReducerID, FieldDisplayOptions, VizOrientation } from '@grafana/data';
-import { Options } from './types';
+import { ReducerID, ThresholdsMode } from '@grafana/data';
+import { FieldDisplayOptions, Options } from './types';
 
 export const FORM_ELEMENT_WIDTH = 12;
 export const LABEL_WIDTH = 10;
@@ -18,10 +18,13 @@ export const fontSize = {
 export const standardFieldDisplayOptions: FieldDisplayOptions = {
   calcs: [ReducerID.last],
   defaults: {
-    thresholds: [
-      { value: -Infinity, color: 'green' },
-      { value: 80, color: 'red' }, // 80%
-    ],
+    thresholds: {
+      mode: ThresholdsMode.Absolute,
+      steps: [
+        { value: -Infinity, color: 'green' },
+        { value: 80, color: 'red' }, // 80%
+      ],
+    },
     mappings: [],
     unit: 'none',
   },
@@ -30,7 +33,6 @@ export const standardFieldDisplayOptions: FieldDisplayOptions = {
 
 export const defaults: Options = {
   fieldOptions: standardFieldDisplayOptions,
-  orientation: VizOrientation.Auto,
   colorBackground: false,
   colorValue: false,
   template: '$1',

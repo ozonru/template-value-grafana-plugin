@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import { ThresholdsEditor, ValueMappingsEditor } from '@grafana/ui';
-import { Threshold, ValueMapping, FieldConfig, PanelEditorProps, FieldDisplayOptions } from '@grafana/data';
+import { ValueMapping, FieldConfig, PanelEditorProps, ThresholdsConfig } from '@grafana/data';
+import { FieldDisplayOptions } from './types';
 
 import { Options } from './types';
 import { GeneralSettingsEditor } from './components/GeneralSettingsEditor';
 import { PanelOptionsGrid } from './components/PanelOptionsGrid';
 
 export default class Editor extends PureComponent<PanelEditorProps<Options>> {
-  onThresholdsChanged = (thresholds: Threshold[]) => {
+  onThresholdsChanged = (thresholds: ThresholdsConfig) => {
     const current = this.props.options.fieldOptions.defaults;
     this.onDefaultsChange({
       ...current,
@@ -45,7 +46,7 @@ export default class Editor extends PureComponent<PanelEditorProps<Options>> {
       <>
         <GeneralSettingsEditor options={options} onChange={this.props.onOptionsChange} />
         <PanelOptionsGrid cols={2}>
-          <ThresholdsEditor onChange={this.onThresholdsChanged} thresholds={defaults.thresholds} />
+          <ThresholdsEditor onChange={this.onThresholdsChanged} thresholds={defaults.thresholds as ThresholdsConfig} />
           <ValueMappingsEditor onChange={this.onValueMappingsChanged} valueMappings={defaults.mappings} />
         </PanelOptionsGrid>
       </>

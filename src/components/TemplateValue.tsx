@@ -4,6 +4,7 @@ import { FieldDisplay, GrafanaTheme } from '@grafana/data';
 interface Props {
   height: number;
   width: number;
+  fontSize: string | undefined;
   values: FieldDisplay[];
   theme: GrafanaTheme;
   template: string;
@@ -33,12 +34,12 @@ export default class TemplateValue extends PureComponent<Props> {
     }
 
     const {
-      display: { text, color },
+      display: { text, color, suffix = '' },
     } = value;
 
     return (
       <span key={`val-${index}`} style={{ ...templateVariableStyle, color }}>
-        {text}
+        {text + suffix}
       </span>
     );
   }
@@ -70,11 +71,11 @@ export default class TemplateValue extends PureComponent<Props> {
   }
 
   render() {
-    const { width, height, template, values } = this.props;
+    const { width, height, template, values, fontSize } = this.props;
 
     return (
       <div style={{ ...wrapperStyle, width, height }}>
-        {values.length === 0 ? null : <span style={{ ...valueStyle, fontSize: values[0].display.fontSize }}>{this.renderTemplate(template)}</span>}
+        {values.length === 0 ? null : <span style={{ ...valueStyle, fontSize }}>{this.renderTemplate(template)}</span>}
       </div>
     );
   }
