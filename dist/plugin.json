@@ -17,8 +17,8 @@
       {"name": "License", "url": "https://github.com/ozonru/multistat-grafana-plugin/blob/master/LICENSE"}
     ],
     "screenshots": [],
-    "version": "0.1.0",
-    "updated": "2020-01-20"
+    "version": "0.2.0",
+    "updated": "2020-04-02"
   },
 
   "dependencies": {

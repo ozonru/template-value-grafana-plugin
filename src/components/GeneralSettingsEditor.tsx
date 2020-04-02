@@ -22,9 +22,9 @@ export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
       },
     });
 
-  handleUnitChange = (selected: SelectableValue<string>) =>
+  handleUnitChange = (selected?: string) =>
     this.override({
-      unit: selected.value as string,
+      unit: selected,
     });
 
   handleDecimalsChange = (e: React.SyntheticEvent) => {
@@ -114,7 +114,7 @@ export class GeneralSettingsEditor extends PureComponent<EditorPanelsProps> {
       <PanelOptionsGroup title="Appearance: General">
         <div className="section">
           <div className="gf-form">
-            <FormField label="Unit format" labelWidth={LABEL_WIDTH} inputEl={<UnitPicker onChange={this.handleUnitChange} defaultValue={unit} />} />
+            <FormField label="Unit format" labelWidth={LABEL_WIDTH} inputEl={<UnitPicker onChange={this.handleUnitChange} value={unit} />} />
           </div>
           <div className="gf-form">
             <FormField

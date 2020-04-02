@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Options } from './types';
 import TemplateValue from './components/TemplateValue';
-import { DEFAULT_FONT_SIZE } from './consts';
 import { ArrayVector, FieldType, PanelProps, getFieldDisplayValues, FieldDisplay } from '@grafana/data';
 import { Themeable, withTheme } from '@grafana/ui';
 
@@ -11,16 +10,20 @@ interface State {
 }
 type Props = PanelProps<Options> & Themeable;
 
-function evaluateFontSize(size: number, percent: string): number {
-  const percentNumber = parseInt(percent, 10);
-
-  return Math.round((size / 100) * percentNumber);
-}
-
 class Panel extends PureComponent<Props, State> {
-  static getDerivedStateFromProps({ options, data, replaceVariables, theme }): State {
+  static getDerivedStateFromProps({ options, data, replaceVariables, theme }: Props): State {
+    const decimals = options.fieldOptions.override.decimals || options.fieldOptions.defaults.decimals;
+    const unit = options.fieldOptions.override.unit || options.fieldOptions.defaults.unit;
     const values = getFieldDisplayValues({
-      ...options,
+      fieldOptions: {
+        defaults: {
+          ...options.fieldOptions.defaults,
+          decimals: typeof decimals === 'number' ? decimals : undefined,
+          unit,
+        },
+        overrides: [],
+        calcs: options.fieldOptions.calcs,
+      },
       replaceVariables,
       theme,
       data: data.series,
@@ -48,12 +51,21 @@ class Panel extends PureComponent<Props, State> {
       });
 
       if (valid) {
+        /*eslint no-eval: 0*/
         /* tslint:disable:no-eval */
         const value = eval(replacedVariables);
 
         if (typeof value === 'number' && !Number.isNaN(value)) {
           const result = getFieldDisplayValues({
-            ...options,
+            fieldOptions: {
+              defaults: {
+                ...options.fieldOptions.defaults,
+                unit,
+                decimals: typeof decimals === 'number' ? decimals : undefined,
+              },
+              overrides: [],
+              calcs: options.fieldOptions.calcs,
+            },
             replaceVariables,
             theme,
             data: [
@@ -77,10 +89,10 @@ class Panel extends PureComponent<Props, State> {
       }
     }
 
-    const fontSize = options.valueFontSize ? evaluateFontSize(DEFAULT_FONT_SIZE, options.valueFontSize) : DEFAULT_FONT_SIZE;
+    // const fontSize = options.valueFontSize ? evaluateFontSize(DEFAULT_FONT_SIZE, options.valueFontSize) : DEFAULT_FONT_SIZE;
 
     values.forEach(val => {
-      val.display.fontSize = `${fontSize}px`;
+      // val.display.fontSize = `${fontSize}px`;
 
       if (!options.colorValue) {
         val.display.color = undefined;
@@ -125,7 +137,14 @@ class Panel extends PureComponent<Props, State> {
 
     return (
       <div ref={this.panel}>
-        <TemplateValue template={options.template} values={this.state.values} width={width} height={height} theme={theme} />
+        <TemplateValue
+          template={options.template}
+          values={this.state.values}
+          fontSize={options.valueFontSize}
+          width={width}
+          height={height}
+          theme={theme}
+        />
       </div>
     );
   }
