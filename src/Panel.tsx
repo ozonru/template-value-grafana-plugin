@@ -1,7 +1,8 @@
+/* eslint-disable */
 import React, { PureComponent } from 'react';
 import { Options } from './types';
 import TemplateValue from './components/TemplateValue';
-import { ArrayVector, FieldType, PanelProps, getFieldDisplayValues, FieldDisplay } from '@grafana/data';
+import { PanelProps, getFieldDisplayValues, FieldDisplay, toDataFrame, ReducerID, getDisplayProcessor } from '@grafana/data';
 import { Themeable, withTheme } from '@grafana/ui';
 
 interface State {
@@ -11,25 +12,17 @@ interface State {
 type Props = PanelProps<Options> & Themeable;
 
 class Panel extends PureComponent<Props, State> {
-  static getDerivedStateFromProps({ options, data, replaceVariables, theme }: Props): State {
-    const decimals = options.fieldOptions.override.decimals || options.fieldOptions.defaults.decimals;
-    const unit = options.fieldOptions.override.unit || options.fieldOptions.defaults.unit;
+  static getDerivedStateFromProps({ options, fieldConfig, data, replaceVariables, theme }: Props): State {
     const values = getFieldDisplayValues({
-      fieldOptions: {
-        defaults: {
-          ...options.fieldOptions.defaults,
-          decimals: typeof decimals === 'number' ? decimals : undefined,
-          unit,
-        },
-        overrides: [],
-        calcs: options.fieldOptions.calcs,
-      },
+      fieldConfig,
+      reduceOptions: {calcs: [ReducerID.last]},
       replaceVariables,
       theme,
       data: data.series,
       sparkline: undefined,
     });
 
+    debugger;
     let color = values[0].display.color;
 
     if (options.thresholdExpression) {
@@ -56,35 +49,14 @@ class Panel extends PureComponent<Props, State> {
         const value = eval(replacedVariables);
 
         if (typeof value === 'number' && !Number.isNaN(value)) {
-          const result = getFieldDisplayValues({
-            fieldOptions: {
-              defaults: {
-                ...options.fieldOptions.defaults,
-                unit,
-                decimals: typeof decimals === 'number' ? decimals : undefined,
-              },
-              overrides: [],
-              calcs: options.fieldOptions.calcs,
-            },
-            replaceVariables,
+          const frame = [toDataFrame({ data: [[0, value]] })];
+          frame[0].fields[0].config = {thresholds: fieldConfig.defaults.thresholds};
+          const processor = getDisplayProcessor({
+            field: frame[0].fields[0],
             theme,
-            data: [
-              {
-                length: 1,
-                fields: [
-                  {
-                    name: '',
-                    type: FieldType.number,
-                    values: new ArrayVector([value]),
-                    config: {},
-                  },
-                ],
-              },
-            ],
-            sparkline: undefined,
           });
 
-          color = result[0].display.color;
+          color = processor(value).color;
         }
       }
     }
@@ -134,6 +106,8 @@ class Panel extends PureComponent<Props, State> {
 
   render() {
     const { height, width, options, theme } = this.props;
+
+    debugger;
 
     return (
       <div ref={this.panel}>
